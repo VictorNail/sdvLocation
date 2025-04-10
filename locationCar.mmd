@@ -1,0 +1,48 @@
+erDiagram
+
+USER {
+  INT id
+  STRING email
+  STRING motDePasse
+  STRING nom
+  STRING prenom
+  DATE obtentionPermis
+  STRING role
+}
+
+VEHICULE {
+  INT id
+  STRING modele
+  STRING marque
+  INT tarifParJour
+}
+
+RESERVATION {
+  INT id
+  DATE dateDeDebut
+  DATE dateDeFin
+  FLOAT prix
+}
+
+ASSURANCE {
+  INT id
+  FLOAT prix
+}
+
+PAIEMENT {
+  INT id
+  STRING methodeDePaiement
+  DATETIME datePaiement
+  STRING statut
+}
+
+COMMANDE {
+  INT id
+  STRING statut
+}
+
+USER ||--o{ COMMANDE : "créer des"
+COMMANDE ||--|{ RESERVATION : "possède des"
+RESERVATION }|--|| VEHICULE : "réserve un"
+COMMANDE ||--|| ASSURANCE : "peut avoir une"
+COMMANDE ||--|| PAIEMENT : "possède un"
