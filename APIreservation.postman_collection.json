@@ -1,0 +1,59 @@
+{
+	"info": {
+		"_postman_id": "88366b42-2a9a-4f01-8f69-dbb5722b0db0",
+		"name": "API PHP reservationVoiture",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36352004"
+	},
+	"item": [
+		{
+			"name": "createVehicule",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"marque\":\"renault\",\r\n    \"modele\":\"C15\",\r\n    \"tarifDuJour\": 54\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/vehicule/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"vehicule",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListVehicule",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/vehicule/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"vehicule",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

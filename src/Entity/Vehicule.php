@@ -22,6 +22,28 @@ class Vehicule
     #[ORM\Column]
     private ?float $tarifDuJour = null;
 
+    public function __construct($modele, $marque, $tarifDuJour)
+    {
+        if($tarifDuJour < 0){
+            throw new Exception(message:"Le tarifDuJour doit être suppérieur à 0");
+        }
+        $this->modele = $modele;
+        $this->marque = $marque;
+        $this->tarifDuJour = $tarifDuJour;
+    }
+
+    public function modify($modele, $marque, $tarifDuJour)
+    {
+        if($tarifDuJour != null && $tarifDuJour > 0 ){
+            $this->tarifDuJour = $tarifDuJour;
+        }
+        if($marque != null ){
+            $this->marque = $marque;
+        }
+        if($modele != null ){
+            $this->modele = $modele;
+        }
+    }
     public function getId(): ?int
     {
         return $this->id;
