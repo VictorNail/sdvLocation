@@ -3,15 +3,18 @@
 namespace App\Application\Vehicule;
 
 use App\Entity\Vehicule;
+use App\Repository\VehiculeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ModifyVehiculeUseCase
 {
     private $entityManager;
+    private $vehiculeRepo;
 
 
-    public function __construct(EntityManagerInterface $entityManager) {
+    public function __construct(EntityManagerInterface $entityManager, VehiculeRepository $vehiculeRepo) {
         $this->entityManager = $entityManager;
+        $this->vehiculeRepo = $vehiculeRepo;
     }
     public function execute(String $id,String $modele,String $marque, Float $tarifDuJour) {
         $vehicule = $this->entityManager->getRepository(Vehicule::class)->find($id);

@@ -84,6 +84,8 @@ class Commande
     }
 
     public function addReservation(Reservation $reservation){
+
+
         if($this->getStatut() != "CART"){
             throw new \Exception("Impossible de rajouter une livraison à cette commande");
         }

@@ -9,13 +9,15 @@ use Doctrine\ORM\EntityManagerInterface;
 class PayerCommandeUseCase
 {
     private $entityManager;
+    private $commandeRepo;
 
-    public function __construct(EntityManagerInterface $entityManager) {
+    public function __construct(EntityManagerInterface $entityManager, CommandeRepository $commandeRepo) {
         $this->entityManager = $entityManager;
+        $this->commandeRepo = $commandeRepo;
     }
     public function execute(int $idCommande) {
 
-        $commande = $this->entityManager->getRepository(Commande::class)->find($idCommande);
+        $commande = $this->commandeRepo->find($idCommande);
 
         if (!$commande) {
             throw new \Exception("La commande n'existe pas");
