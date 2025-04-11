@@ -42,6 +42,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $obtentionPermis = null;
 
+    public function __construct($email,$password,$nom,$prenom,$obtentionPermis){
+
+        if (empty($email) || empty($password) || empty($nom) || empty($prenom) || empty($obtentionPermis)) {
+           throw new \Exception("Données manquante");
+        }
+
+        if (!preg_match('/^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*\d.*\d).{8,}$/', $password)) {
+           throw new \Exception(message:'Mot de passe invalide : au moins 8 caractères, 4 lettres, 4 chiffres');
+        }
+
+        $this->email = $email;
+        $this->password = $password;
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+        $this->obtentionPermis =$obtentionPermis;
+        $this->roles = ["ROLE_USER"]; // supprimé l'obtention de permis et rajouter ROLE_ADMIN pour créer un admin
+
+    }
 
     public function getId(): ?int
     {

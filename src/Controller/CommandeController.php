@@ -10,6 +10,7 @@ use App\Application\AddReservationToCommandeUseCase;
 use App\Application\RemoveReservationToCommandeUseCase;
 
 #[Route('/commande')]
+#[IsGranted('ROLE_USER')]
 class CommandeController extends AbstractController
 {
     private $addReservationUseCase;
@@ -34,33 +35,45 @@ class CommandeController extends AbstractController
         if (empty($data['vehiculeId']) || empty($data['dateDebut']) || empty($data['dateFin'])) {
             return $this->json(['message' => 'Données manquantes'], 400);
         }
-        if((empty($data['clientId']) && empty($data['commandeId']) )||(!empty($data['clientId']) && !empty($data['commandeId']) ) ){
-            return $this->json(['message' => 'Mauvaise gestion des Id'], 400);
-        }
-
-        try {
-            $commande = $this->addReservationUseCase->execute($data['dateDebut'],$data['dateFin'],$data['vehiculeId'],$data['clientId'],$data['commandeId']);
+                try {
+            $commande = $this->addReservationUseCase->execute($data['dateDebut'],$data['dateFin'],$data['vehiculeId'],$data['commandeId']);
             return $this->json(['message' => 'Réservation ajoutée ou commande créée','Commande'=> $commande]);
         } catch (\Exception $e) {
             return $this->json(['message' => $e->getMessage()], 500);
         }
     }
 
-    #[Route('/reservation/{idReservation}', name: 'remove_reservation', methods: ['DELETE'])]
-    public function removeReservation(int $idReservation,Request $request): JsonResponse
+    #[Route('/reservation', name: 'remove_reservation', methods: ['DELETE'])]
+    public function removeReservation(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
-        if (empty($data['$idCommande'])) {
+        if (empty($data['$idCommande']) || empty($data['idReservation'])) {
             return $this->json(['message' => 'idCommande manquante'], 400);
         }
 
         try {
-            $commande = $this->removeReservationUseCase->execute($idReservation,$data['$idCommande']);
+            $commande = $this->removeReservationUseCase->execute($data['idReservation'],$data['$idCommande']);
             return $this->json(['message' => 'Réservation supprimée','Commande'=> $commande]);
         } catch (\Exception $e) {
             return $this->json(['message' => $e->getMessage()], 500);
         }
     }
 
+    #[Route('/paiement', name: 'add_paiement', methods: ['PUT'])]
+    public function addPaiement(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (empty($data['$idCommande']) || empty($data['idReservation'])) {
+            return $this->json(['message' => 'idCommande manquante'], 400);
+        }
+
+        try {
+            $commande = $this->removeReservationUseCase->execute($data['idReservation'],$data['$idCommande']);
+            return $this->json(['message' => 'Réservation supprimée','Commande'=> $commande]);
+        } catch (\Exception $e) {
+            return $this->json(['message' => $e->getMessage()], 500);
+        }
+    }
 }

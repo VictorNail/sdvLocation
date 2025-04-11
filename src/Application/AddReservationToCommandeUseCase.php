@@ -15,7 +15,7 @@ class AddReservationToCommandeUseCase
     public function __construct(EntityManagerInterface $entityManager) {
         $this->entityManager = $entityManager;
     }
-    public function execute( $dateDebut, $dateFin, int $vehiculeId, int $clientId, int $commandeId) {
+    public function execute( $dateDebut, $dateFin, int $vehiculeId, int $commandeId) {
         //recherche véhicule
         $vehicule = $this->entityManager->getRepository(Vehicule::class)->find($vehiculeId);
         if (!$vehicule) {
@@ -30,11 +30,7 @@ class AddReservationToCommandeUseCase
         // création / recherche de la commande
         if($commandeId == null){
             //créer la commande
-            $user = $this->entityManager->getRepository(User::class)->find($clientId);
-            if (!$user) {
-                throw new \Exception("Le user n'existe pas");
-            }
-            $commande = new Commande($user);
+            $commande = new Commande($this->getUser());
         }else{
             $commande = $this->entityManager->getRepository(Commande::class)->find($commandeId);
         }

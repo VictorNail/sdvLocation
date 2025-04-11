@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/vehicule')]
+#[IsGranted('ROLE_ADMIN')]
 class VehiculeController extends AbstractController
 {
     private $listVehiculeUseCase;
