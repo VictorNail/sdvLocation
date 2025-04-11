@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
-use App\Application\DeleteVehiculeUseCase;
-use App\Application\ListVehiculeUseCase;
-use App\Application\ModifyVehiculeUseCase;
+use App\Application\Vehicule\CreateVehiculeUseCase;
+use App\Application\Vehicule\DeleteVehiculeUseCase;
+use App\Application\Vehicule\ListVehiculeUseCase;
+use App\Application\Vehicule\ModifyVehiculeUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Application\CreateVehiculeUseCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/vehicule')]

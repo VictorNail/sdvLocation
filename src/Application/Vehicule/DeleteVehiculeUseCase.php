@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Application;
+namespace App\Application\Vehicule;
 
 use App\Entity\Vehicule;
-use App\Repository\VehiculeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ModifyVehiculeUseCase
+class DeleteVehiculeUseCase
 {
     private $entityManager;
 
@@ -14,7 +13,7 @@ class ModifyVehiculeUseCase
     public function __construct(EntityManagerInterface $entityManager) {
         $this->entityManager = $entityManager;
     }
-    public function execute(String $id,String $modele,String $marque, Float $tarifDuJour) {
+    public function execute(String $id) {
         $vehicule = $this->entityManager->getRepository(Vehicule::class)->find($id);
 
         if (!$vehicule) {
@@ -22,11 +21,11 @@ class ModifyVehiculeUseCase
         }
 
         try {
-            $vehicule->modify($modele,$marque,$tarifDuJour);
+            $this->entityManager->remove($vehicule);
             $this->entityManager->flush();
-            return($vehicule);
+
         } catch (\Exception $exception) {
-            throw new \Exception("Impossible de modifier le véhicule.");
+            throw new \Exception("Impossible de supprimer le véhicule.");
         }
     }
 

@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ReservationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
+use Exception;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
@@ -26,6 +28,28 @@ class Reservation
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Vehicule $type = null;
+
+    public function __construct(\DateTimeInterface $dateDebut,\DateTimeInterface $dateFin,Vehicule $type)
+    {
+        if($dateDebut < new Date()){
+            throw new Exception(message:"La date de début doit être suppérieur à la date du jour");
+        }
+        if( $dateDebut > $dateFin){
+            throw new Exception(message:"La date de fin doit être suppérieur à la date de début");
+        }
+        $this->dateDebut = $dateDebut;
+        $this->dateFin = $dateFin;
+        $this->prix = $this->calculerPrix($dateDebut, $dateFin, $type->getTarifDuJour());
+    }
+
+    // Méthode pour calculer le prix
+    private function calculerPrix(\DateTimeInterface $dateDebut, \DateTimeInterface $dateFin, float $tarifDuJour): float
+    {
+        $interval = $dateDebut->diff($dateFin);
+        $nombreDeJours = $interval->days;
+
+        return $nombreDeJours * $tarifDuJour;
+    }
 
     public function getId(): ?int
     {

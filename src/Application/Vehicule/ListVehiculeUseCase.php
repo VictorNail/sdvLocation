@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Application;
+namespace App\Application\Vehicule;
 
 use App\Entity\Vehicule;
-use App\Repository\VehiculeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ListVehiculeUseCase

@@ -34,9 +34,11 @@ class Commande
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    public function __construct()
+    public function __construct(User $user)
     {
         $this->reservations = new ArrayCollection();
+        $this->statut = "CART";
+        $this->user = $user;
     }
 
     public function getUser(): ?User
@@ -95,6 +97,29 @@ class Commande
     public function getReservation(): ?Collection
     {
         return $this->reservation;
+    }
+
+    public function addReservation(Reservation $reservation){
+        if($this->getStatut() != "CART"){
+            throw new \Exception("Impossible de rajouter une livraison à cette commande");
+        }
+
+        $this->reservations->add($reservation);
+    }
+
+    public function removeReservation(int $idReservation){
+        if($this->getStatut() != "CART"){
+            throw new \Exception("Impossible de retirer une livraison à cette commande");
+        }
+
+        foreach ($this->reservations as $reservation) {
+            if ($reservation->getId() === $idReservation) {
+                $this->reservations->removeElement($reservation);
+                return;
+            }
+        }
+
+        throw new \Exception("La réservation à supprimer n'a pas été trouvée.");
     }
 
 }
