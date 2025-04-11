@@ -77,6 +77,10 @@ class Commande
 
     public function setPaiement(?Paiement $paiement): static
     {
+        if ($this->getStatut() !== 'CART') {
+            throw new \Exception("Impossible de rajouter un paiement");
+        }
+
         $this->paiement = $paiement;
 
         return $this;
@@ -120,6 +124,14 @@ class Commande
         }
 
         throw new \Exception("La réservation à supprimer n'a pas été trouvée.");
+    }
+
+    public function payer(){
+        if($this->getStatut() != "CART"){
+            throw new \Exception("Impossible de payer cette commande");
+        }
+        $this->paiement->payer();
+        $this->statut = "PAYD";
     }
 
 }

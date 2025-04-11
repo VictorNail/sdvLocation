@@ -17,11 +17,28 @@ class Paiement
     #[ORM\Column(length: 255)]
     private ?string $methodeDePaiement = null;
 
+    private const ENUM_MODE_PAIEMENT = ['CB', 'PAYPAL'];
+
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $datePaiement = null;
 
     #[ORM\Column(length: 255)]
     private ?string $statut = null;
+
+    public function __construct($modePaiement)
+    {
+        if (!in_array($modePaiement,$this->ENUM_MODE_PAIEMENT)) {
+            return new JsonResponse(['error' => 'Mode de paiement invalide'], 400);
+        }
+        $this->statut="CREATED";
+        $this->methodeDePaiement= $modePaiement;
+    }
+
+    public function payer()
+    {
+        $this->statut="CREATED";
+        $this->datePaiement= new Date();
+    }
 
     public function getId(): ?int
     {
