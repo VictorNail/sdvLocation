@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Application\AddReservationToCommandeUseCase;
+use App\Application\AjouterReservationToCommandeUseCase;
 use App\Application\SupprimerReservationToCommandeUseCase;
 use App\Application\AjouterAssuranceCommandeUseCase ;
 use App\Application\SupprimerAssuranceCommandeUseCase ;
@@ -17,7 +17,7 @@ use App\Application\SupprimerAssuranceCommandeUseCase ;
 #[IsGranted('ROLE_USER')]
 class CommandeController extends AbstractController
 {
-    private $addReservationUseCase;
+    private $ajouterReservationUseCase;
     private $supprimerReservationToCommandeUseCase;
     private $selectionnerPaiementCommandeUseCase;
     private $payerCommandeUseCase;
@@ -25,7 +25,7 @@ class CommandeController extends AbstractController
     private $supprimerAssuranceCommandeUseCase;
 
     public function __construct(
-        AddReservationToCommandeUseCase $addReservationUseCase,
+        AjouterReservationToCommandeUseCase $ajouterReservationUseCase,
         SupprimerReservationToCommandeUseCase $supprimerReservationToCommandeUseCase,
         SelectionnerPaiementCommandeUseCase $selectionnerPaiementCommandeUseCase,
         PayerCommandeUseCase $payerCommandeUseCase,
@@ -33,7 +33,7 @@ class CommandeController extends AbstractController
         SupprimerAssuranceCommandeUseCase $supprimerAssuranceCommandeUseCase
 
     ) {
-        $this->addReservationUseCase = $addReservationUseCase;
+        $this->ajouterReservationUseCase = $ajouterReservationUseCase;
         $this->supprimerReservationToCommandeUseCase = $supprimerReservationToCommandeUseCase;
         $this->selectionnerPaiementCommandeUseCase = $selectionnerPaiementCommandeUseCase;
         $this->payerCommandeUseCase = $payerCommandeUseCase;
@@ -51,7 +51,7 @@ class CommandeController extends AbstractController
             return $this->json(['message' => 'Données manquantes'], 400);
         }
                 try {
-            $commande = $this->addReservationUseCase->execute($data['dateDebut'],$data['dateFin'],$data['vehiculeId'],$data['commandeId']);
+            $commande = $this->ajouterReservationUseCase->execute($data['dateDebut'],$data['dateFin'],$data['vehiculeId'],$data['commandeId']);
             return $this->json(['message' => 'Réservation ajoutée ou commande créée','Commande'=> $commande]);
         } catch (\Exception $e) {
             return $this->json(['message' => $e->getMessage()], 500);

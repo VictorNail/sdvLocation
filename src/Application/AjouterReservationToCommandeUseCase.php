@@ -7,7 +7,7 @@ use App\Entity\Commande;
 use App\Entity\Vehicule;
 use Doctrine\ORM\EntityManagerInterface;
 
-class AddReservationToCommandeUseCase
+class AjouterReservationToCommandeUseCase
 {
     private $entityManager;
 

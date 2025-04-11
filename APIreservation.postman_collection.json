@@ -71,7 +71,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"vehiculeId\": 1,\r\n    \"dateDebut\": \"2025-04-15T10:00:00\", \r\n    \"dateFin\": \"2025-04-20T10:00:00\",\r\n    \"clientId\":\"\",\r\n    \"commandId\":\"\"\r\n}",
+					"raw": "{\r\n    \"vehiculeId\": 1,\r\n    \"dateDebut\": \"2025-04-15T10:00:00\", \r\n    \"dateFin\": \"2025-04-20T10:00:00\",\r\n    \"commandId\":\"\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -88,6 +88,90 @@
 					"path": [
 						"commande",
 						"reservation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "selectionnerPaiement",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/commande/1/selectionner-paiement",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"commande",
+						"1",
+						"selectionner-paiement"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "payer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/commande/1/payer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"commande",
+						"1",
+						"payer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ajouterAssurance",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/commande/1/assurance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"commande",
+						"1",
+						"assurance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "supprimerAssurance",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/commande/1/assurance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"commande",
+						"1",
+						"assurance"
 					]
 				}
 			},
