@@ -9,28 +9,36 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Application\AddReservationToCommandeUseCase;
-use App\Application\RemoveReservationToCommandeUseCase;
+use App\Application\SupprimerReservationToCommandeUseCase;
+use App\Application\AjouterAssuranceCommandeUseCase ;
+use App\Application\SupprimerAssuranceCommandeUseCase ;
 
 #[Route('/commande')]
 #[IsGranted('ROLE_USER')]
 class CommandeController extends AbstractController
 {
     private $addReservationUseCase;
-    private $removeReservationUseCase;
+    private $supprimerReservationToCommandeUseCase;
     private $selectionnerPaiementCommandeUseCase;
     private $payerCommandeUseCase;
+    private $ajouterAssuranceCommandeUseCase;
+    private $supprimerAssuranceCommandeUseCase;
 
     public function __construct(
         AddReservationToCommandeUseCase $addReservationUseCase,
-        RemoveReservationToCommandeUseCase $removeReservationUseCase,
+        SupprimerReservationToCommandeUseCase $supprimerReservationToCommandeUseCase,
         SelectionnerPaiementCommandeUseCase $selectionnerPaiementCommandeUseCase,
-        PayerCommandeUseCase $payerCommandeUseCase
+        PayerCommandeUseCase $payerCommandeUseCase,
+        AjouterAssuranceCommandeUseCase $ajouterAssuranceCommandeUseCase,
+        SupprimerAssuranceCommandeUseCase $supprimerAssuranceCommandeUseCase
 
     ) {
         $this->addReservationUseCase = $addReservationUseCase;
-        $this->removeReservationUseCase = $removeReservationUseCase;
+        $this->supprimerReservationToCommandeUseCase = $supprimerReservationToCommandeUseCase;
         $this->selectionnerPaiementCommandeUseCase = $selectionnerPaiementCommandeUseCase;
         $this->payerCommandeUseCase = $payerCommandeUseCase;
+        $this->ajouterAssuranceCommandeUseCase= $ajouterAssuranceCommandeUseCase;
+        $this->supprimerAssuranceCommandeUseCase= $supprimerAssuranceCommandeUseCase;
 
     }
 
@@ -51,10 +59,10 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/{idCommande}/reservation/{idReservation}', name: 'remove_reservation', methods: ['DELETE'])]
-    public function removeReservation(int $idReservation, int $idCommande): JsonResponse
+    public function supprimerReservation(int $idReservation, int $idCommande): JsonResponse
     {
         try {
-            $commande = $this->removeReservationUseCase->execute($idReservation,$idCommande);
+            $commande = $this->supprimerReservationToCommandeUseCase->execute($idReservation,$idCommande);
             return $this->json(['message' => 'Réservation supprimée','Commande'=> $commande]);
         } catch (\Exception $e) {
             return $this->json(['message' => $e->getMessage()], 500);
@@ -84,6 +92,28 @@ class CommandeController extends AbstractController
         try {
             $commande = $this->payerCommandeUseCase->execute($idCommande);
             return new JsonResponse(['success' => 'Commande payer',"Commande"=>$commande]);
+        } catch (\Exception $e) {
+            return $this->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    #[Route('/{idCommande}/assurance', name: 'add_assurance', methods: ['POST'])]
+    public function ajouterAssurance(int $idCommande): JsonResponse
+    {
+        try {
+            $commande = $this->ajouterAssuranceCommandeUseCase->execute($idCommande);
+            return new JsonResponse(['success' => 'Assurance ajoutée',"Commande"=>$commande]);
+        } catch (\Exception $e) {
+            return $this->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    #[Route('/{idCommande}/assurance', name: 'remove_assurance', methods: ['DELETE'])]
+    public function supprimerAssurance(int $idCommande): JsonResponse
+    {
+        try {
+            $commande = $this->supprimerAssuranceCommandeUseCase->execute($idCommande);
+            return $this->json(['message' => 'Assurance supprimée','Commande'=> $commande]);
         } catch (\Exception $e) {
             return $this->json(['message' => $e->getMessage()], 500);
         }

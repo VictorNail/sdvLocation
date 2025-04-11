@@ -16,6 +16,13 @@ class Assurance
     #[ORM\Column]
     private ?float $prix = null;
 
+    const PRIX_UNIQUE_ASSURANCE = 20;
+
+    public function __construct()
+    {
+        $this->prix = $this->PRIX_UNIQUE_ASSURANCE;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

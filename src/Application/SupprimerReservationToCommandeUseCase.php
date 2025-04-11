@@ -7,7 +7,7 @@ use App\Entity\Commande;
 use App\Entity\Vehicule;
 use Doctrine\ORM\EntityManagerInterface;
 
-class RemoveReservationToCommandeUseCase
+class SupprimerReservationToCommandeUseCase
 {
     private $entityManager;
 
@@ -23,6 +23,14 @@ class RemoveReservationToCommandeUseCase
             throw new \Exception("La commande n'existe pas");
         }
         $commande->removeReservation($idReservation);
+
+        try {
+            $this->entityManager->flush();
+        } catch (\Exception $exception) {
+            throw new \Exception("Impossible de supprimer la réservation.");
+        }
+        return $commande;
+
     }
 
 }

@@ -46,13 +46,6 @@ class Commande
         return $this->user;
     }
 
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -61,13 +54,6 @@ class Commande
     public function getStatut(): ?string
     {
         return $this->statut;
-    }
-
-    public function setStatut(string $statut): static
-    {
-        $this->statut = $statut;
-
-        return $this;
     }
 
     public function getPaiement(): ?Paiement
@@ -91,12 +77,6 @@ class Commande
         return $this->assurance;
     }
 
-    public function setAssurance(?Assurance $assurance): static
-    {
-        $this->assurance = $assurance;
-
-        return $this;
-    }
 
     public function getReservation(): ?Collection
     {
@@ -132,6 +112,20 @@ class Commande
         }
         $this->paiement->payer();
         $this->statut = "PAYD";
+    }
+
+    public function ajouterAssurance(){
+        if( $this->assurance != null){
+            throw new \Exception("Impossible d'ajouter une assurance a cette commande");
+        }
+        $this->assurance = new Assurance();
+    }
+
+    public function enleverAssurance(){
+        if( $this->assurance == null){
+            throw new \Exception("Impossible d'enlever l'assurance de cette commande");
+        }
+        $this->assurance = null;
     }
 
 }
